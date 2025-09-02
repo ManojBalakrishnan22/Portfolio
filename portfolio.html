@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manoj B | Python Developer & Data Scientist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.6s ease, color 0.6s ease;
+      min-height: 100vh;
+    }
+    :root {
+      --bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --text: #e0e0e0;
+      --card-bg: rgba(255 255 255 / 0.08);
+      --highlight: #ffd369;
+      --shadow: rgba(0, 0, 0, 0.4);
+      --btn-bg: #ffd369;
+      --btn-color: #1a1a1a;
+      --btn-hover-bg: #fff176;
+    }
+    body.light {
+      --bg: #f4f7fb;
+      --text: #222;
+      --card-bg: #fff;
+      --highlight: #203a43;
+      --shadow: rgba(0,0,0,0.1);
+      --btn-bg: #203a43;
+      --btn-color: #fff;
+      --btn-hover-bg: #0f2027;
+    }
+    .toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 18px;
+      border-radius: 30px;
+      border: none;
+      background: var(--card-bg);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px var(--shadow);
+      z-index: 1000;
+      transition: background 0.3s, color 0.3s;
+    }
+    .toggle-btn:hover {
+      background: var(--highlight);
+      color: var(--btn-color);
+    }
+    .hero {
+      height: 100vh;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+      animation: gradientShift 15s ease infinite;
+      background-size: 400% 400%;
+      user-select: none;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.3);
+      animation: fadeSlideDown 1.2s ease forwards;
+    }
+    .role-swiper {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--highlight);
+      position: relative;
+      height: 48px;
+      overflow: hidden;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+      min-width: 260px;
+    }
+    .role {
+      position: absolute;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      white-space: nowrap;
+    }
+    .role.active {
+      opacity: 1;
+      position: relative;
+    }
+    .hero a.btn {
+      margin-top: 40px;
+      display: inline-block;
+      padding: 16px 36px;
+      background: var(--btn-bg);
+      color: var(--btn-color);
+      border-radius: 50px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      box-shadow: 0 6px 15px var(--shadow);
+      transition: background 0.3s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+    .hero a.btn:hover,
+    .hero a.btn:focus {
+      background: var(--btn-hover-bg);
+      box-shadow: 0 8px 20px var(--shadow);
+      outline: none;
+    }
+    nav {
+      margin-top: 30px;
+    }
+    nav a {
+      color: var(--text);
+      margin: 0 18px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.4s ease;
+      user-select: none;
+    }
+    nav a:hover,
+    nav a:focus {
+      color: var(--highlight);
+      outline: none;
+    }
+    section {
+      padding: 80px 20px 60px;
+      max-width: 1000px;
+      margin: auto;
+      scroll-margin-top: 80px;
+    }
+    h2 {
+      font-size: 2.6rem;
+      color: var(--highlight);
+      margin-bottom: 40px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-align: center;
+      position: relative;
+    }
+    h2::after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 5px;
+      background: var(--highlight);
+      margin: 12px auto 0;
+      border-radius: 3px;
+      filter: drop-shadow(0 0 4px var(--highlight));
+    }
+    .grid {
+      display: grid;
+      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      place-items: center;
+    }
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      padding: 30px 25px 35px;
+      box-shadow: 0 12px 30px var(--shadow);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+      text-align: center;
+      cursor: default;
+      user-select: none;
+    }
+    .card img {
+      width: 70px;
+      margin-bottom: 18px;
+      filter: drop-shadow(1px 1px 2px var(--shadow));
+      transition: filter 0.3s;
+    }
+    .card:hover,
+    .card:focus-within {
+      transform: translateY(-12px) scale(1.05);
+      box-shadow: 0 18px 40px var(--shadow);
+      background: rgba(255 255 255 / 0.18);
+      outline: none;
+    }
+    .card:hover img {
+      filter: drop-shadow(1.5px 1.5px 4px var(--highlight));
+    }
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      background: rgba(0,0,0,0.65);
+      color: var(--text);
+      font-weight: 400;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    @keyframes fadeSlideDown {
+      0% { opacity: 0; transform: translateY(-30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      nav a {
+        margin: 0 10px;
+        font-size: 0.9rem;
+      }
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      .card img {
+        width: 50px;
+        margin-bottom: 12px;
+      }
+      .role-swiper {
+        font-size: 1.2rem;
+        height: 38px;
+        min-width: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-btn" aria-label="Toggle light/dark mode" onclick="toggleMode()">🌙 Dark</button>
+  <section class="hero" role="banner" aria-label="Introduction">
+    <h1 tabindex="0">Manoj B</h1>
+    <div id="roleSwiper" aria-live="polite" aria-atomic="true" class="role-swiper" role="list">
+      <span class="role active" role="listitem">Python Developer (4+ Years Experience)</span>
+      <span class="role" role="listitem">Certified Data Scientist</span>
+      <span class="role" role="listitem">Transitioning to Data Science</span>
+    </div>
+    <a href="#projects" class="btn" role="button">View My Work</a>
+    <nav aria-label="Primary navigation">
+      <a href="#about" tabindex="0">About</a>
+      <a href="#skills" tabindex="0">Skills</a>
+      <a href="#experience" tabindex="0">Experience</a>
+      <a href="#education" tabindex="0">Education</a>
+      <a href="#certifications" tabindex="0">Certifications</a>
+      <a href="#projects" tabindex="0">Projects</a>
+      <a href="#contact" tabindex="0">Contact</a>
+    </nav>
+  </section>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I am a focused and results-driven Python developer with over 4 years of professional experience in developing robust, scalable software applications. I have deep expertise in algorithms, data structures, and applied machine learning models. Recently certified as a Data Scientist, I am actively transitioning into data science roles to leverage my analytical skills for business intelligence and predictive modeling.</p>
+  </section>
+  <section id="skills">
+    <h2>Technical Skills & Tools</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python Icon" />
+        <strong>Programming Languages:</strong> Python, JavaScript, SQL
+      </div>
+      <div class="card">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas Icon" />
+        <strong>Data Science & ML Libraries:</strong> Pandas, NumPy, scikit-learn, TensorFlow
+      </div>
+      <div class="card">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tableau/tableau-original.svg" alt="Tableau Icon" />
+        <strong>Data Visualization:</strong> Power BI, Tableau, Matplotlib, Seaborn
+      </div>
+      <div class="card">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL Icon" />
+        <strong>Databases & Tools:</strong> PostgreSQL, MySQL, Git, Docker, VS Code, Jupyter
+      </div>
+    </div>
+  </section>
+  <section id="experience">
+    <h2>Professional Experience</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/2699/2699175.png" alt="Backend Icon" />
+        <h3>Backend Developer | R&D Manufacturing Industry (Mar 2024 - Present)</h3>
+        <ul>
+          <li>Developed scalable and maintainable software systems supporting inventory and sales analytics.</li>
+          <li>Optimized database queries and automated data pipelines improving report generation speed by 30%.</li>
+          <li>Collaborated with data science team to integrate predictive models into backend APIs.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="HR Report Icon" />
+        <h3>Backend Developer | HR Reports & Insights (Aug 2023 - Feb 2024)</h3>
+        <ul>
+          <li>Developed HR data aggregation and visualization dashboards using Python and SQL.</li>
+          <li>Improved accuracy of employee financial tracking systems by refactoring back-end logic.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/4359/4359687.png" alt="Retail Solutions Icon" />
+        <h3>Full Stack Developer | Retail Business Solutions (Apr 2022 - Jul 2023)</h3>
+        <ul>
+          <li>Built customized Point-of-Sale (POS) modules increasing customer satisfaction and retention.</li>
+          <li>Upgraded loyalty program backend and front-end logic, leading to 25% customer engagement growth.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Recycle Icon" />
+        <h3>Backend Developer | Metal Recycle Industry (Sep 2021 - Mar 2022)</h3>
+        <ul>
+          <li>Designed microservices for handling inventory logistics improving backend efficiency and traceability by 20%.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section id="education">
+    <h2>Education</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>B.Sc. Computer Science</h3>
+        <p>Madras University (2018-2021)</p>
+        <p><strong>CGPA:</strong> 7.5</p>
+      </div>
+      <div class="card">
+        <h3>Higher Secondary Certificate</h3>
+        <p>Sri R.K.M Hr.Sec School, Chennai (2017-2018)</p>
+        <p><strong>Percentage:</strong> 65.5%</p>
+      </div>
+    </div>
+  </section>
+  <section id="certifications">
+    <h2>Certifications</h2>
+    <div class="grid">
+      <div class="card">Certified Data Scientist – Great Learning (2024)</div>
+      <div class="card">SQL for Data Science – Great Learning (2024)</div>
+      <div class="card">Machine Learning with Python – Great Learning (2024)</div>
+      <div class="card">Data Visualization with Power BI – Great Learning (2024)</div>
+      <div class="card">TensorFlow for Beginners – Simplilearn (2024)</div>
+    </div>
+  </section>
+  <section id="projects">
+    <h2>Key Projects</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>PhonePe Pulse Data Analysis</h3>
+        <p>Designed and implemented interactive dashboards analyzing digital payments trends using Python and Visualization libraries. <a href="https://github.com/ManojBalakrishnan22/Phonepe-Pulse-Data-Visualization-and-Exploration" target="_blank" rel="noopener">GitHub</a></p>
+      </div>
+      <div class="card">
+        <h3>Airbnb Price Analysis & Visualization</h3>
+        <p>Performed advanced pricing and availability data analysis with Python and Tableau for market insights. <a href="https://github.com/ManojBalakrishnan22/Airbnb-Listing-Data-Analysis" target="_blank" rel="noopener">GitHub</a> | <a href="https://public.tableau.com/app/profile/manoj.manoj5229/viz/airbnbs_17226036720910/Dashboard1" target="_blank" rel="noopener">Dashboard</a></p>
+      </div>
+      <div class="card">
+        <h3>Flat Resale Price Prediction Model</h3>
+        <p>Developed an XGBoost-based predictive model using feature engineering to forecast flat resale prices in India. <a href="https://github.com/ManojBalakrishnan22/Flat_Price_Prediction" target="_blank" rel="noopener">GitHub</a></p>
+      </div>
+    </div>
+  </section>
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:mail.to.manojbalakrishnan@gmail.com">mail.to.manojbalakrishnan@gmail.com</a></p>
+    <p>Phone: +91-8680993037</p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/manoj-b-115028182" target="_blank" rel="noopener">linkedin.com/in/manoj-b</a></p>
+    <p>GitHub: <a href="https://github.com/ManojBalakrishnan22" target="_blank" rel="noopener">github.com/ManojBalakrishnan22</a></p>
+  </section>
+  <footer>
+    <p>&copy; 2025 Manoj B. All Rights Reserved.</p>
+  </footer>
+  <script>
+    function toggleMode() {
+      document.body.classList.toggle('light');
+      const btn = document.querySelector('.toggle-btn');
+      btn.textContent = document.body.classList.contains('light') ? '🌞 Light' : '🌙 Dark';
+    }
+    // Screen swiper role slider
+    document.addEventListener('DOMContentLoaded', () => {
+      const roles = document.querySelectorAll('#roleSwiper .role');
+      let current = 0;
+      const total = roles.length;
+      function showRole(index) {
+        roles.forEach((role, i) => {
+          role.classList.toggle('active', i === index);
+        });
+      }
+      setInterval(() => {
+        current = (current + 1) % total;
+        showRole(current);
+      }, 3000);
+      showRole(current);
+    });
+  </script>
+</body>
+</html>
